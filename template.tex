@@ -1,0 +1,50 @@
+% arara: lualatex: { shell: yes }
+% arara: biber
+% arara: nomencl
+% arara: lualatex: { shell: yes }
+% arara: lualatex: { shell: yes }
+
+\documentclass[ngerman]{ttlab-qualify}
+% mögliche Optionen:
+% - ngerman
+% - english
+% - minted
+% - algorithm
+% - nomencl
+% - nolibertine
+%%% wähle den Studiengang (Auswahl erforderlich):
+% - bsc2019
+% - msc2019
+% - mscbio2019
+% - mscwirtschaft2019
+
+\addbibresource{path-and-name-of.bib}
+
+\begin{document}
+\titlehead{
+  Name\\
+  Matrikelnummer\\
+  Studiengang (BA / MA)\\
+  Studienfachkombination / Schwerpunkt \\
+  Semester\\
+  E-Mail-Adresse  
+}
+\subject{Titel der Veranstaltung/Art der Arbeit (BA/MA)}
+\author{Name des Verfassers}
+\title{Titel der Arbeit}
+\subtitle{Ggf. Untertitel}
+\date{Abgabedatum: <Datum>}
+\publishers{Name des Instituts\\Name des Betreuers\\Ggf. Name des Zweitbetreuers}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Einleitung}
+
+
+\appendix
+
+\printbibliography
+
+\end{document}

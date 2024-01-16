@@ -97,7 +97,7 @@
 \ifbool{nolibertine}{}{
   \ifPDFTeX
     \RequirePackage{libertine} % serif and sans-serif fonts
-    \RequirePackage[scaled=0.8]{DejaVuSansMono} % monospace font
+    \RequirePackage[scaled=0.785]{DejaVuSansMono} % monospace font
   \else
     \setromanfont[Ligatures=TeX]{Linux Libertine O} % serif font
     \setsansfont[Ligatures=TeX]{Linux Biolinum O} % sans-serif font

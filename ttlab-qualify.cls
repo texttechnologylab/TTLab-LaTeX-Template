@@ -72,13 +72,15 @@
 }
 
 \DeclareOption*{%
-  \PackageWarning{ttlab-qualify}{Unknown option '\CurrentOption'}%
+  \PassOptionsToClass{\CurrentOption}{scrreprt}
 }
 
 \ExecuteOptions{ngerman}
+\ExecuteOptions{pagesize=auto}
+\ExecuteOptions{paper=a4}
 \ProcessOptions*\relax
 
-\LoadClass[pagesize=auto, paper=a4, titlepage=on, fontsize=12pt, bibliography=totoc, headings=small, captions=tableheading]{scrreprt}
+\LoadClass[titlepage=on, fontsize=12pt, bibliography=totoc, headings=small, captions=tableheading]{scrreprt}
 
 %%% Font:
 \ifbool{nolibertine}{}{

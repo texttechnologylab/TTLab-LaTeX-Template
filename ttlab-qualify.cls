@@ -83,11 +83,26 @@
 \LoadClass[titlepage=on, fontsize=12pt, bibliography=totoc, headings=small, captions=tableheading]{scrreprt}
 
 %%% Font:
-\ifbool{nolibertine}{}{
+\RequirePackage{iftex}
+\ifPDFTeX
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage[utf8]{inputenc}
+\else
+  \ifXeTeX
+    \ClassWarning{ttlab-qualify}{Use LuaLaTeX instead of XeLaTeX}
+  \fi
   \RequirePackage{fontspec}
-  \setromanfont[Mapping=tex-text]{Linux Libertine O} % Serifenschrift
-  \setsansfont[Mapping=tex-text]{Linux Biolinum O} % serifenlose Schrift
-  \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono}%
+\fi
+
+\ifbool{nolibertine}{}{
+  \ifPDFTeX
+    \RequirePackage{libertine} % serif and sans-serif fonts
+    \RequirePackage[scaled=0.8]{DejaVuSansMono} % monospace font
+  \else
+    \setromanfont[Ligatures=TeX]{Linux Libertine O} % serif font
+    \setsansfont[Ligatures=TeX]{Linux Biolinum O} % sans-serif font
+    \setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono} % monospace font
+  \fi
 }
 
 %%% Load some useful packages:

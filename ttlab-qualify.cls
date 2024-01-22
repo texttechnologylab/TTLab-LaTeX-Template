@@ -24,6 +24,7 @@
 \newbool{msc2019}
 \newbool{mscbio2019}
 \newbool{mscwirtschaft2019}
+\newbool{seminar}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrreprt}}
 
@@ -56,6 +57,9 @@
 }
 \DeclareOption{mscwirtschaft2019}{
   \booltrue{mscwirtschaft2019}
+}
+\DeclareOption{seminar}{
+  \booltrue{seminar}
 }
 
 %%% Options:
@@ -97,17 +101,18 @@
 \ifbool{algorithm}{\RequirePackage[linesnumbered]{algorithm2e}}{}
 
 % Erklärungen from Prüfungsamt:
-\newcommand{\Studiengang}{\textcolor{red}{wähle Studiengang!}}
+\newcommand{\Studiengang}{gemäß \textcolor{red}{wähle Studiengang!}}
 \newcommand{\BorM}{\textcolor{red}{X}}
-\ifbool{bsc2019}{\renewcommand{\Studiengang}{\S 35, Abs. 16 der Ordnung für den Bachelorstudiengang Informatik vom 17. Juni 2019}\renewcommand{\BorM}{Bachelor}}{}
-\ifbool{msc2019}{\renewcommand{\Studiengang}{\S 34, Abs. 16 der Ordnung für den Masterstudiengang Informatik vom 17. Juni 2019}\renewcommand{\BorM}{Master}}{}
-\ifbool{mscbio2019}{\renewcommand{\Studiengang}{\S 35, Abs. 16 der Ordnung für den Masterstudiengang Bioinformatik vom 17. Juni 2019}\renewcommand{\BorM}{Master}}{}
-\ifbool{mscwirtschaft2019}{\renewcommand{\Studiengang}{\S 34, Abs. 16 der Ordnung für den Masterstudiengang Wirtschaftsinformatik vom 01. April 2019}\renewcommand{\BorM}{Master}}{}
+\ifbool{bsc2019}{\renewcommand{\Studiengang}{gemäß \S 35, Abs. 16 der Ordnung für den Bachelorstudiengang Informatik vom 17. Juni 2019:}\renewcommand{\BorM}{Bachelor}}{}
+\ifbool{msc2019}{\renewcommand{\Studiengang}{gemäß \S 34, Abs. 16 der Ordnung für den Masterstudiengang Informatik vom 17. Juni 2019:}\renewcommand{\BorM}{Master}}{}
+\ifbool{mscbio2019}{\renewcommand{\Studiengang}{gemäß \S 35, Abs. 16 der Ordnung für den Masterstudiengang Bioinformatik vom 17. Juni 2019:}\renewcommand{\BorM}{Master}}{}
+\ifbool{mscwirtschaft2019}{\renewcommand{\Studiengang}{gemäß \S 34, Abs. 16 der Ordnung für den Masterstudiengang Wirtschaftsinformatik vom 01. April 2019:}\renewcommand{\BorM}{Master}}{}
+\ifbool{seminar}{\renewcommand{\Studiengang}{}\renewcommand{\BorM}{Seminar}}{}
     
 \dedication{\textbf{\sffamily Erklärung zur Abschlussarbeit}
   \par\bigskip
   \begin{minipage}{\linewidth}\large
-    \textbf{gemäß \Studiengang:}\par\bigskip
+    \textbf{\Studiengang}\par\bigskip
     Hiermit erkläre ich
     \vskip1cm
     \rule{\linewidth}{0.6pt} \\

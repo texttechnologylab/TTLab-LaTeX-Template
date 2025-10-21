@@ -4,24 +4,35 @@
 % arara: lualatex: { shell: yes }
 % arara: lualatex: { shell: yes }
 
-\documentclass[ngerman]{ttlab-qualify}
-%%% mögliche Optionen:
-% - ngerman
-% - english
-% - minted
-% - algorithm
-% - nomencl
-% - nolibertine
-%%% wähle den Studiengang (Auswahl erforderlich):
-% - bsc2019
-% - msc2019
-% - mscbio2019
-% - mscwirtschaft2019
-% - seminar
+\documentclass[
+  %%% Optional Flags:
+  minted, % for code type setting
+  % mintedframed, % add simple frames around all minted environments
+  tcolorbox, % colorful boxes and callouts
+  % algorithm, % for algorithms
+  % nomencl, % for nomenclatures
+  % nolibertine, % switch off Libertine Fonts
+  %%% REQUIRED: select your Studiengang!
+  % bsc2019,
+  % msc2019,
+  % mscbio2019,
+  % mscwirtschaft2019,
+  % seminar,
+  %%% Language Options: choose one!
+  % ngerman
+  english
+]{ttlab-qualify}
 
-\addbibresource{path-and-name-of.bib}
+% Add your references to this file.
+% Good sources are DBLP and Google Scholar.
+% Make sure to double check any references to arXiv or other pre-print servers,
+% as there may be a more up-to-date version published at a conference later!
+\addbibresource{references.bib}
 
-\begin{document}
+%% only needed for the template %%
+\usepackage{lipsum}
+
+% Fill in your personal data
 \titlehead{
   Name\\
   Matrikelnummer\\
@@ -37,15 +48,144 @@
 \date{Abgabedatum: <Datum>}
 \publishers{Name des Instituts\\Name des Betreuers\\Ggf. Name des Zweitbetreuers}
 
-\maketitle
+\begin{document}
+{
+    \hypersetup{hidelinks}
+    \maketitle
 
-\tableofcontents
+    %%% Writing the thesis in English requires an additional German abstract!
+    \begin{zusammenfassung}
+        ...
+    \end{zusammenfassung}
+    
+    \begin{abstract}
+        ...
+    \end{abstract}
+    
+    \tableofcontents
+    \listoffigures
+    \listoftables
+    \listoflistings
+    % \listof??? % other lists if necessary
+}
 
-\chapter{Einleitung}
+\chapter{Template}
+    \section{Tables}
+        Create tables using \href{https://ctan.org/pkg/tabularray?lang=en}{tabularray} in the \texttt{tblr} environment.
+        %
+        It supersedes all other table packages like \texttt{tabluarx}.
+        
+        \begin{table}[hb]
+            \centering
+            \caption{Captions \textit{above} tables.}\label{tab:example}
+            \begin{tblr}{colspec={llll}}
+                \toprule
+                Alpha   & Beta  & Gamma   & Delta \\
+                \midrule
+                Epsilon & Zeta  & Eta     & Theta \\
+                \cmidrule{1-3}
+                Iota    & Kappa & Lambda  & Mu    \\
+                \cmidrule{2-4}
+                Nu      & Xi    & Omicron & Pi    \\
+                \bottomrule
+            \end{tblr}
+        \end{table}
+    
+    \section{Figures}
+        \begin{figure}[hb]
+            \centering
+            \includegraphics[width=0.4\textwidth]{figures/logos/logo-gu-blau.pdf}
+            \caption{Captions \textit{below} figures.}\label{fig:example}
+        \end{figure}
+        
+        \clearpage
+    \section{Code Typesetting}
+        Use \href{https://ctan.org/pkg/minted}{minted} to typeset code snippets.
+        
+        \begin{listing}[hb]
+            \captionabove{Example listing of C-code.}\label{listing:example}
+            \begin{minted}[
+                frame=lines,
+                framesep=2mm,
+            ]{C}
+                int main() {
+                    printf("hello, world");
+                    return 0;
+                }
+            \end{minted}
+        \end{listing}
 
+
+        % Define an environment for Python code
+        \newtcblisting{tcbPython}[1][]{
+            % the colors are only for demonstration, not required
+            colback=blue!5!white,
+            colframe=blue!75!black,
+            listing only,
+            left=5mm, 
+            enhanced,
+            overlay={\begin{tcbclipinterior}\fill[red!20!blue!20!white] (frame.south west)
+            rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}},
+            minted language=python3,
+            minted options={numbersep=3mm},
+            #1
+        }       
+        \begin{listing}[hb]
+            \captionabove{Fancy Python typesetting in a \href{https://ctan.org/pkg/tcolorbox?lang=en}{tcolorbox}.}\label{listing:example}
+            \begin{tcbPython}
+if __name__ == "__main__":
+    print("Hello World!")
+            \end{tcbPython}
+        \end{listing}
+
+    
+    \section{References}
+        Add references by updating the \textit{references.bib} file with appropriate Bib\TeX entries and insert citations like this \citep{lastname-etal-2025-example}.
+        %
+        Check out the \href{https://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{Bib\LaTeX{} Cheatsheet}!
+        
+        \begin{table}[h]
+            \centering
+            \caption{Example citation commands and their output.}
+            \begin{tblr}{
+                    colspec={lX},
+                    row{1}={font=\bfseries}
+                }
+                \toprule
+                Commands & Output                                                                      \\
+                \midrule
+                {\fakeverb{\textcite}  \\ \fakeverb{\citet}} & \citet{lastname-etal-2025-example}      \\
+                {\fakeverb{\parencite} \\ \fakeverb{\citep}} & \citep{lastname-etal-2025-example}      \\
+                \fakeverb{\citealp}                          & \citealp{lastname-etal-2025-example}    \\
+                \fakeverb{\citeauthor}                       & \citeauthor{lastname-etal-2025-example} \\
+                \fakeverb{\fullcite}                         & \fullcite{lastname-etal-2025-example}   \\
+                \bottomrule
+            \end{tblr}
+        \end{table}
+
+\chapter{Structure \& Layout}
+    \lipsum[1]
+    
+    \section{Section}
+        \lipsum[2]
+        
+        \subsection{Subsection}
+            \lipsum[3]
+            
+            \subsubsection{Subsubsection}
+                \lipsum[4]
+                
+                \minisec{Minisec}
+                    \lipsum[5]
+                
+                \paragraph{Paragraph}
+                    \lipsum[6]
+                    
+% Bibliography
+\nocite{lastname-etal-2025-example}
+\printbibliography
 
 \appendix
-
-\printbibliography
+\chapter{First Appendix}
 
 \end{document}

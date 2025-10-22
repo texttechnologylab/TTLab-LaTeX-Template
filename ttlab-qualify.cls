@@ -218,7 +218,17 @@
 \ifbool{tcolorbox}{
     \RequirePackage{tcolorbox}
     \tcbuselibrary{skins}
-    \ifbool{minted}{\tcbuselibrary{minted}}{}
+    \ifbool{minted}{
+        \tcbuselibrary{minted}
+        \tcbset{
+            default minted options={
+                fontsize=\footnotesize,
+                linenos,    % number lines
+                autogobble, % autmatically remove indents for better readability
+                breaklines, % break long lines
+            }
+        }
+    }{}
 }{}
 \ifbool{nomencl}{\RequirePackage[intoc]{nomencl}\makenomenclature}{}
 \ifbool{algorithm}{\RequirePackage[linesnumbered]{algorithm2e}}{}

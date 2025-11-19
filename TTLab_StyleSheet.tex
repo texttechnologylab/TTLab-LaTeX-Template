@@ -1,0 +1,804 @@
+% arara: lualatex: { shell: yes }
+% arara: biber
+% arara: nomencl
+% arara: lualatex: { shell: yes }
+% arara: lualatex: { shell: yes }
+
+\documentclass[pagesize=auto, DIV=10, fontsize=12pt, captions=tableheading]{scrartcl}
+
+%%% fonts:
+\usepackage{fontspec}
+\setromanfont[Mapping=tex-text]{Linux Libertine O} % Serifenschrift
+\setsansfont[Mapping=tex-text]{Linux Biolinum O} % serifenlose Schrift
+\setmonofont[Scale=MatchLowercase]{DejaVu Sans Mono} %
+
+%%% Load some useful packages:
+\usepackage[ngerman]{babel}
+\usepackage[autostyle=true]{csquotes}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{hvlogos}
+\usepackage{adjustbox}
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs}
+\usepackage[german]{isodate}
+\usepackage[linesnumbered]{algorithm2e}
+
+%%% TikZ:
+\usepackage{tikz}
+\usetikzlibrary{babel,fit,matrix}
+
+%%% minted:
+\usepackage{minted}
+\setminted[latex]{style=emacs,bgcolor=GU-Hellgrau,breaklines,linenos}
+
+%%% bib:
+\usepackage[style=authoryear, maxnames=5, maxcitenames=3, backend=biber]{biblatex}
+\addbibresource{stylebib.bib}
+
+%%% colors:
+%% Color definitions of the new GU corporate identity http://www.muk.uni-frankfurt.de/52945514/farben
+\definecolorset{cmyk}{GU-}{}{%
+  Goethe-Blau,1,0.2,0,0.4;%
+  Hellgrau,0.04,0.04,0.05,0.02;%
+  Sandgrau,0.12,0.09,0.13,0;%
+  Dunkelgrau,0.25,0.25,0.3,0.75;%
+  Purple,0.08,1,0.3,0.36;%
+  Emo-Rot,0.04,1,0.8,0.07;%
+  Senfgelb,0.01,0.25,1,0.05;%
+  Gruen,0.62,0.4,0.87,0.09;%
+  Magenta,0.08,0.86,0.12,0.12;%
+  Orange,0,0.7,1,0.04;%
+  Sonnengelb,0,0.12,0.95,0;%
+  Helles-Gruen,0.4,0.17,0.81,0.07;%
+  Lichtblau,0.8,0,0.06,0.04}
+
+%%% hyper:
+\usepackage[colorlinks=true, pdfusetitle]{hyperref}
+\hypersetup{
+  linkcolor=GU-Purple,
+  % anchorcolor,
+  citecolor=GU-Gruen,
+  % filecolor,
+  % menucolor,
+  % runcolor,
+  urlcolor=GU-Goethe-Blau,
+  % allcolors 
+}
+
+
+%%% floats:
+% There are four counters that control how many floats can go into areas:
+% totalnumber (default 3) is the maximum number of floats on a text (!) page
+% topnumber (default 2) is the maximum number of floats in the top area
+% bottomnumber (default 1) is the maximum number of floats in the bottom area
+% dbltopnumber (default 2) is the maximum number of full sized floats in two-column mode going above the text columns.
+
+% The size of the areas are controlled through parameters (changed with \renewcommand) that define the maximum (or minimum) size of the area, expressed as a fraction of the page height:
+
+\renewcommand{\topfraction}{0.9} % (default 0.7) maximum size of the top area
+\renewcommand{\bottomfraction}{0.1} % (default 0.3) maximum size of the bottom area
+% \dbltopfraction % (default 0.7) maximum size of the top area for double-column floats
+\renewcommand{\textfraction}{0.1} % (default 0.2) minimum size of the text area, i.e., the area that must not be occupied by floats
+
+% reduce fontsize in quotation environments:
+\expandafter\def\expandafter\quote\expandafter{\quote\footnotesize}
+\expandafter\def\expandafter\quotation\expandafter{\quote\footnotesize}
+
+    
+
+\begin{document}
+\titlehead{%
+  \href{www.uni-frankfurt.de}{\includegraphics[height=1.5cm]{figures/Logo-Goethe-University-Frankfurt-am-Main}}%
+  \hfill%
+  \begin{tabular}[b]{c}
+    Goethe Universität Frankfurt \\
+    Institut für Informatik \\
+    Text Technology Lab
+  \end{tabular}%
+  \hfill%
+  \href{http://texttechnologylab.org/}{\includegraphics[height=1.5cm]{figures/TT-Logo-GU-Goethe-Blau}}%
+}
+
+\author{Andy Lücking \and Alexander Mehler}
+\title{\textit{Style Sheet} für Qualifikationsarbeiten am Text Technology Lab}
+\date{Version vom \today}
+
+\maketitle
+
+\begin{abstract}
+  Das \textit{Style Sheet} verwendet Gliederungsteile und Auszüge aus dem \textit{Style Sheet}, das Susanne Schmidt für die Empirische Sprachwissenschaft zusammengestellt hat.
+\end{abstract}
+
+\tableofcontents
+
+
+\section{Abgabeformate}
+\label{sec:abgabeformate}
+
+Das Abgabeformat richtet sich nach der Art der schriftlichen Arbeit:
+%
+\begin{itemize}
+\item Für Bachelor- oder Masterarbeiten gelten die jeweiligen Prüfungsordnungen -- Details sind in den Merkblättern zu Abschlussarbeiten aus den betreffenden Studiengängen auf den Seiten des \href{https://www.uni-frankfurt.de/103337868/Pruefungsamt}{Prüfungsamt} zu finden. (Derzeit sind drei gedruckte, gebundene und unterschriebene Exemplare fristgemäß abzugeben.)
+
+\item Um die Abgabefrist für Haus- oder Seminararbeiten einzuhalten, genügt es, die Qualifikations- oder Hausarbeit als PDF-Datei per E-Mail an den Betreuer oder die Betreuerin zu schicken.
+  % 
+  Es ist kein zusätzliches gedrucktes Exemplar abzugeben.
+\end{itemize}
+
+
+Es wird dringend empfohlen, Qualifikations- und Hausarbeiten mit dem Textsatzprogramm \href{http://www.latex-project.org/}{\LaTeX} zu erstellen.
+%
+Das folgende \textit{Style Sheet} behandelt formale Aspekte entsprechend ihrer Umsetzung in LATEX.
+%
+Eine Vorlagendatei kann über die Ressourcen-Seite der AG bezogen werden.
+%
+Die Vorlage kann sowohl für Hausarbeiten im Rahmen von Veranstaltungen als auch für das Verfassen von Bachelor- oder Masterarbeiten verwendet werden.
+%
+Als Richtschnur können Sie von folgender Umfangsbestimmung gemäß der formalen Vorlage des Style Sheets ausgehen:
+%
+\begin{itemize}
+\item Eine übliche Hausarbeit umfasst \textbf{max. 20 Seiten}.
+\item Eine übliche Bachelorarbeit umfasst \textbf{max. 40 Seiten}.
+\item Eine übliche Masterarbeit umfasst \textbf{max. 60 Seiten}.
+\end{itemize}
+
+
+\section{Äußere Form der Hausarbeit}
+\label{sec:form}
+
+Eine Qualifikations- oder Hausarbeit besteht aus folgenden Abschnitten (optionale Teile stehen in Klammern):
+\newpage
+%
+\begin{enumerate}
+\item Titelblatt
+\item Inhaltsverzeichnis
+\item Einleitung \tikz[remember picture] \node (n1) {};
+\item Hauptteil Textteil
+\item Schluss / Zusammenfassung / Fazit \tikz[remember picture] \node (n2) {};
+\item (Abkürzungsverzeichnis)
+\item Literaturverzeichnis
+\item Plagiatserklärung $\rightarrow$ \emph{ist ein eigenständiges Dokument und erhält daher \textbf{keine Seitenzahl} und wird auch \textbf{nicht im Inhaltsverzeichnis} aufgeführt.}
+\end{enumerate}
+
+\begin{tikzpicture}[remember picture, overlay]
+  % \node [fit=(n1) (n2), right delimiter=\), label=right:{\quad~Textteil}] {};
+  \draw (n2) -- +(0:0.5cm) |- (n1) node [near start, right] {Textteil};
+\end{tikzpicture}
+
+Im Einleitungskapitel des Textteils werden die Problemstellung und die Ziele der Arbeit beschrieben sowie die verwendeten Methoden benannt.
+  %
+Im anschließenden Kapitel wird mittels eines Literaturberichtes der Stand der Technik dokumentiert.
+%
+\textbf{Beachten Sie, dass Wikipedia keine zitierfähige Quelle für Qualifikations- und Hausarbeiten und allgemein für akademische Publikationen ist!}
+
+Die Ausarbeitung Ihres Themas stellt den Hauptteil des Textes dar.
+%
+Der Hauptteil ist inhaltlich sinnvoll in Kapitel und Abschnitte zu gliedern.
+%
+Bei längeren Arbeiten kann gegebenfalls eine Gliederung in Teile (\mintinline{latex}{\part{}}) erfolgen.
+%
+Jedes Kapitel sollte mit einer Zusammenfassung enden.
+
+
+Der Schluss der schriftlichen Arbeit fasst nochmal das Thema zusammen und umreißt Vorgehen und Ergebnisse.
+%
+Darauf aufsetzend schließt der Textteil mit einem Ausblick auf anschließende Problemstellungen oder Anwendungen.
+
+
+\subsection{Titelei}
+\label{subsec:titelei}
+
+Folgende Angaben gehören auf das Titelblatt (das Titelblatt gehört nicht zur Seitenzählung):
+%
+\begin{itemize}
+\item Name (einmal im Kopf, einmal im Verfasserfeld)
+\item Matrikelnummer
+\item Studiengang
+\item Studienfachkombination / Schwerpunkt
+\item Semester
+\item E-Mail-Adresse
+\item Titel der Veranstaltung
+\item Titel der Hausarbeit (ggf. Untertitel)
+\item Abgabedatum
+\item Name des Instituts
+\item Name des Betreuers/der Betreuerin (im Falle von Bachelor- oder Masterarbeiten sind beide Betreuer zu nennen)
+\end{itemize}
+
+\textbf{Alle} in Abbildung~\ref{fig:titelblatt} aufgeführten nicht-optionalen Angaben müssen auf dem Titelblatt verzeichnet sein!
+
+\begin{figure}[htb]
+  \centering
+  \adjincludegraphics[scale=0.5, page=1, frame]{../tmp/template.pdf}
+  \caption{Gestaltungsbeispiel der Titelseite einer Hausarbeit. Bis auf den optionalen Untertitel sind alle Angaben Pflichtangaben. Im Falle von \textbf{Bachelor- oder Masterarbeiten} sind beide Betreuer zu nennen!}
+  \label{fig:titelblatt}
+\end{figure}
+
+In Ihrer \LaTeX-Vorlage erreichen Sie die Beispielausgabe mittels folgender Eingabe (und unter Verwendung der Klassenoption \mintinline{xml}{titlepage=on}):
+%
+\begin{minted}{latex}
+\titlehead{
+  Name\\
+  Matrikelnummer\\
+  Studiengang (BA / MA)\\
+  Studienfachkombination / Schwerpunkt \\
+  Semester\\
+  E-Mail-Adresse
+}
+\subject{Titel der Veranstaltung}
+\author{Name des Verfassers}
+\title{Titel der Hausarbeit}
+\subtitle{Ggf. Untertitel}
+\date{Abgabedatum: <Datum>}
+\publishers{Name des Instituts\\Name des Betreuers\\ggf. Name des Zweitbetreuers}
+
+\maketitle
+\end{minted}
+
+
+
+\subsection{Inhaltsverzeichnis}
+\label{subsec:inhaltsverzeichnis}
+
+Im Inhaltsverzeichnis wird jedes Kapitel und Unterkapitel aufgeführt und mit einer Seitenzahl versehen.
+F%
+ür die Nummerierung der Kapitel wird die Dezimalgliederung verwendet.
+%
+Ein Beispielinhaltsverzeichnis ist in Abbildung~\ref{fig:inhaltsverzeichnis} gegeben.
+
+\begin{figure}[htb]
+  \centering
+  \adjincludegraphics[width=\linewidth, page=3, trim=0 600 0 80, clip, frame]{../tmp/template.pdf}
+  \caption{Gliederung einer Hausarbeit im Inhaltsverzeichnis (die Überschriften ebenso wie die Seitenzahlen sind nur beispielhaft zu verstehen).}
+  \label{fig:inhaltsverzeichnis}
+\end{figure}
+
+
+\begin{quotation}
+  \enquote{Ihre Arbeit beginnt bei Kapitel 1 -- das ist gewöhnlich die Einleitung -- und Sie nummerieren fortlaufend von Kapitel zu Kapitel mit arabischen Ziffern. Dies bezeichnet man als Gliederung der 1. Stufe. Die Zugehörigkeit von Unterkapiteln zu einem Kapitel wird durch die Übernahme von dessen Kapitelnummer und einer eigenen, durch einen Punkt abgetrennten Ziffer markiert, die ebenfalls unter fortlaufender Nummerierung mit 1 beginnt. Sie erhalten damit eine Gliederung der 2. Stufe. [\ldots] Nach der letzten Ziffer steht bei den Unterkapiteln in der Regel kein Punkt.}
+  \begin{flushright}
+    \textcite[149\psq]{Rothstein:2011-wiss}, zitiert nach \textcite[2]{Schmidt:2016-stylesheet}
+  \end{flushright}
+\end{quotation}
+
+Mittels \LaTeX\ wird die korrekte Nummerierung der Gliederungen automatisch durch Gliederungsbefehle erzeugt:
+%
+\begin{minted}{latex}
+\chapter{Erstes Hauptkapitel}
+\section{Erstes Unterkapitel des ersten Hauptkapitels}
+\section{Zweites Unterkapitel des ersten Hauptkapitels}
+\end{minted}
+
+
+
+\subsection{Äußere Form des Textteils}
+\label{subsec:form-textteil}
+
+Die Prüfungsordnung der Goethe-Universität Frankfurt stellt nur minimale Anforderungen an die formale Gestaltung von Bachelor- und Masterarbeiten.
+%
+D Text Technology Lab trifft daher folgende Vereinbarungen:
+%
+\begin{description}
+\item[Format] DIN A4, einseitiger Satz
+\item[Schriftart] \href{https://libertine-fonts.org/}{Linux Libertine und Linux Biolinum}
+\item[Schriftgröße] 12\,pt im Fließtext; 10\,pt bei Fußnoten und längeren Zitaten (mehr als 3 Zeilen)
+\item[Zeilenabstand] einfach
+\item[Textumfang] variiert nach Art der Arbeit, eine eventuell vereinbarte Seitenzahl ist auf jeden Fall einzuhalten!
+\end{description}
+
+Sorgfalt beim Schreiben beugt Tipp- und anderen Fehlern vor; genaues \textbf{Korrekturlesen} vor der Abgabe ist unabdingbar!
+
+
+\subsection{Schaubilder und Tabellen}
+\label{subsec:gleitumgebungen}
+
+Schaubilder und Tabellen müssen benannt und nummeriert werden.
+%
+Die Nummerierung dient hier dazu, dass man sich im Text eindeutig auf eine bestimmte Abbildung oder Tabelle beziehen kann (z.\,B. \enquote{Wie aus Tabelle 2 ersichtlich}).
+%
+In \LaTeX\ wird hierfür der Befehl \mintinline{latex}{\caption} sowie der \mintinline{latex}{\label--\ref}-Mechanismus eingesetzt.
+%
+\begin{minted}{latex}
+\begin{figure}[tb]
+\centering
+\includegraphics{meinbild}
+\caption{Beschriftung des Beispielbilds.}
+\label{fig:example}
+\end{figure}
+ ... wie in Abbildung~\ref{fig:example} zu sehen ist ...
+\end{minted}
+
+
+Hat man ein Schaubild oder eine Tabelle nicht selbst erstellt, sondern von jemand anderem übernommen (vollständig oder teilweise), so muss diese Quelle angegeben werden.
+%
+Wenn man eine von anderen Autoren bezogene Tabelle/Grafik/Abbildung verändert hat, muss man dies ebenfalls kennzeichnen.
+%
+Bei geringen Änderungen einer von Tsunoda (1988: 626) entnommenen Quelle genügt es beispielsweise, \enquote{(nach Tsunoda 1988: 626)} zu schreiben; dadurch macht man kenntlich, dass man mit der eigenen Darstellung im Prinzip dem genannten Autor folgt.
+%
+Nimmt man Umsortierungen, Streichungen oder Ergänzungen vor, so fügt man der Quellenangabe einen entsprechenden Zusatz hinzu, aus dem durch die Abkürzung des eigenen Namens (z.\,B. durch die Inititalen) zu erkennen ist, wer die Änderung vorgenommen hat, z.\,B. \enquote{(Tsunoda 1988: 626; ergänzt AL)}, bei Veröffentlichungen findet man hierfür häufig die Abkürzung \enquote{d. Verf.} für \enquote*{der Verfasser}.
+%
+Ein Beispiel ist in Tabelle~\ref{tab:tsunoda} gegeben.
+%
+Beachten Sie, dass Tabellen eine Überschrift als Beschriftung bekommen, während Abbildungen eine Unterschrift haben.
+%
+Tabelle~\ref{tab:tsunoda} beispielsweise ist unter Verwendung des Pakets \mintinline{xml}{tabularry} und der Library \mintinline{xml}{booktabs} sowie der Klassenoption für Tabellenüberschriften \mintinline{xml}{captions=tableheadings} mittels folgender Eingabe erstellt:
+%
+\begin{minted}{latex}
+% \usepackage{tabularray}
+% \UseTblrLibrary{booktabs}
+
+\begin{table}[htb]
+  \centering
+  \caption{Beispieltabelle \parencite[\pno~626, ergänzt durch d. Verf.]{Tsunoda 1988}.}
+  \label{tab:tsunoda}
+  \begin{tblr}{
+      width=0.66\linewidth,
+      colspec={X[l] X[l]}
+    }
+    \toprule
+    Kasus     & \emph{Genera verbi} \\
+    \cmidrule[r]{1-1} \cmidrule[l]{2-2} 
+    Absolutiv & Aktiv                 \\
+    Ergativ   & Passiv                \\
+    Gemischt  & Konjunktiv I          \\
+    \bottomrule
+  \end{tblr}
+\end{table}  
+\end{minted}
+
+
+\begin{table}[htb]
+  \centering
+  \caption{Beispieltabelle (Tsunoda 1988: 626; ergänzt durch d. Verf.).}
+  \label{tab:tsunoda}
+  \begin{tblr}{
+      width=0.66\linewidth,
+      colspec={X[l] X[l]}
+    }
+    \toprule
+    Kasus     & \emph{Genera verbi} \\
+    \cmidrule[r]{1-1} \cmidrule[l]{2-2} 
+    Absolutiv & Aktiv                 \\
+    Ergativ   & Passiv                \\
+    Gemischt  & Konjunktiv I          \\
+    \bottomrule
+  \end{tblr}
+\end{table}
+
+
+Auch \textbf{selbsterstellte} Fotos oder Screenshots können in schriftlichen Arbeiten als Abbildungen Verwendung finden, als Quellenangabe dient dann das Datum und die Uhrzeit der Aufnahme.
+%
+Bei einem Screenshot von einer Webseite muss auch die Adresse der Webseite angegeben werden -- siehe Abbildung~\ref{fig:olat}.
+%
+Fotos von Dritten sind nur dann zu verwenden, wenn sie zur Arbeit beitragen, d.\,h. nicht bloß dekorative Funktion erfüllen.
+%
+In jedem Fall muss ihre Verwendung lizenzrechtlich erlaubt sein und die Quellenangabe muss den genannten Bedingungen entsprechen.
+
+Noch einmal sei darauf hingewiesen, dass ein abschließendes \textbf{Korrekturlesen} der Arbeit dringendst empfohlen wird.
+%
+Sorgfalt bei der Korrektur von Tipp- und anderen Fehlern hilft, Missverständnisse zu vermeiden.
+
+
+\begin{figure}[htb]
+  \centering
+  \adjincludegraphics[width=0.66\linewidth, frame]{figures/olat}
+  \caption{OLAT-Startseite, \url{https://olat.server.uni-frankfurt.de/}, letzter Zugriff: \printdate{2024-01-22} (Screenshot vom \printdate{2024-01-22}, 14:53 Uhr).}
+  \label{fig:olat}
+\end{figure}
+
+
+
+\section{Zitate}
+\label{sec:zitate}
+
+Jedes Zitat -- egal, ob wörtlich oder sinngemäß zitiert wird -- muss mit einer \textbf{Quellenangabe} versehen sein.
+%
+Hierbei soll eine Zitierweise duch \textbf{Kurzbeleg} verwendet werden: In Klammern werden Name des Autors, Erscheinungsjahr und, mit der Abkürzung für \enquote{Seitenzahl} abgesetzt, Seitenzahl im Fließtext direkt hinter (manchmal auch vor) dem Zitat angegeben; z.\,B. \enquote{(Müller 1999, S. 23)}, bei zwei Autoren: \enquote{(Müller und Meier 1955, S. 314)}; bei mehr als zwei Autoren schreibt man im Kurzbeleg nur den ersten Namen und setzt \enquote{et al.} (Abkürzung für lat. \enquote*{und andere}) hinzu: \enquote{(Müller et al. 1999, S. 23)}.
+%
+Für reine Quellenangaben werden also keine Fußnoten verwendet.\footnote{In Fußnoten gehören nur Zusatzinformationen wie z. B. Hinweise auf weiterführende Literatur.}
+%
+Bei den Quellenangaben für indirekte Zitate oder sonstige Hinweise auf Sekundärliteratur wird vor dem Autorennamen \enquote{vgl.} (Abkürzung für \enquote*{vergleiche}) hinzugefügt.
+%
+% Konsultieren Sie auch die Hinweise für Zitate in FB 12 (2011).
+
+
+Mit \LaTeX\ verwenden Sie vorzugsweise das Paket \mintinline{latex}{biblatex} mit den folgenden basalen Zitierbefehlen für Fließtext- und für Parenthesezitate:
+%
+\begin{minted}{latex}
+\textcite{Mueller:1999}
+\textcite[23]{Mueller:1999}
+\textcite[vgl.][]{Mueller:1999}
+\textcite[vgl.][23]{Mueller:1999}
+
+\parencite{Mueller:1999}
+\parencite[23]{Mueller:1999}
+\parencite[vgl.][]{Mueller:1999}
+\parencite[vgl.][23]{Mueller:1999}
+\end{minted}
+
+
+
+\minisec{Kennzeichnung wörtlicher Zitate}
+\medskip
+
+\textbf{Kurze Zitate} stehen in doppelten Anführungszeichen.
+%
+Kommt in der zitierten Stelle wörtliche Rede oder ein weiteres Zitat vor, das im Original in doppelten Anführungszeichen steht (Zitat im Zitat), so gibt man diese als einfache Anführungszeichen wieder: \enquote{Zitiert werden darf grundsätzlich nur anhand des Originalmaterials. Ist das nicht möglich, muss auf die Sekundärquelle mit \enquote{zitiert nach} verwiesen werden.} (\textcite[15]{Pages:2009-empfehlungen}, zitiert nach \textcite[6]{Schmidt:2016-stylesheet})
+
+
+Das korrekte, kontextsensitive Setzen von Anführungszeichen übernimmt für den \LaTeX-Nutzer der schachtelbare Befehl \mintinline{latex}{\enquote} aus dem Paket \mintinline{xml}{csquotes}.
+%
+Obiges Beispiel wurde wir folgt erzeugt:
+%
+\begin{minted}{latex}
+% \usepackage[ngerman]{babel}
+% \usepackage[autostyle=true]{csquotes}
+  
+\enquote{Zitiert werden darf grundsätzlich nur anhand des Originalmaterials. Ist das nicht möglich, muss auf die Sekundärquelle mit \enquote{zitiert nach} verwiesen werden.}
+\end{minted}
+
+
+\textbf{Längere Zitate} (ab drei Zeilen) werden abgesetzt (neue Zeile), eingerückt (um ca. 1 cm) und in Schriftgröße 10 formatiert, der Zeilenabstand beträgt 1:
+%
+\begin{quote}
+  Zitate müssen in Form und Inhalt exakt übernommen werden. Das bedeutet, dass die vorliegende Orthographie und Interpunktion originalgetreu beibehalten werden muss -- auch wenn es sich um ungewöhnliche Schreibweisen oder sogar eindeutige Fehler handelt. Der Inhalt des Zitates muss in seinem neuen Kontext seinen ursprünglichen Sinn behalten. Eventuelle Veränderungen (z.\,B. Korrektur oder Hinweise auf offensichtliche Fehler) müssen kenntlich gemacht werden [\ldots].
+  \begin{flushright}
+    \textcite[15]{Pages:2009-empfehlungen}, zitiert nach \textcite[6]{Schmidt:2016-stylesheet}
+  \end{flushright}
+\end{quote}
+
+Für längere Zitate stellt LATEX die Umgebungen \mintinline{xml}{quote} und \mintinline{xml}{quotation} zur Verfügung; in beiden sollte zur entsprechenden Verringerung der Schriftgröße auf \mintinline{xml}{\footnotesize} geschaltet werden.
+%
+Die Vorlage definiert beide Umgebungen entsprechend um.
+
+\textbf{Zitate aus fremdsprachiger Literatur} können nur dann in der Originalsprache stehen, wenn davon auszugehen ist, dass die Sprache \enquote{üblicherweise} verstanden wird (was z.\,B. für das Englische gilt).
+%
+Ansonsten sollte man sich um eine Übersetzung bemühen, die dem Originalzitat beigefügt wird.
+%
+Übersetzt man das Zitat selbst, wird dies in Klammern vermerkt (z.\,B. \enquote{Übersetzung d. Verf.}), verwendet man hingegen die Übersetzung eines anderen Autors, so muss man diesen als Übersetzer angeben.
+
+\textbf{Sinngemäße Zitate} (Referieren der Positionen anderer):
+%
+\begin{quote}
+  Nicht gerade wenige Studierende sind der Meinung, dass sie nur dann zitieren, wenn sie Aussagen anderer wörtlich wiedergeben. Dies ist natürlich grober Unfug. Denn immer, wenn man Positionen, Gedanken oder bspw. Ergebnisse Dritter in seiner wissenschaftlichen Arbeit übernimmmt, verwendet man ein sog. \textbf{Zitat}.
+    \begin{flushright}
+      \textcite[276\psq]{Kornmeier:2011}, zitiert nach \textcite[7]{Schmidt:2016-stylesheet}; Hervorhebing im Original
+    \end{flushright}
+    
+      Mit einem sinngemäßen Zitat ist gemeint, dass man Gedanken bzw. Ausführungen anderer übernimmt oder sich an die Argumentation anderer Autoren anlehnt, ohne indessen den betreffenden Text wörtlich wiederzugeben. Hingegen ist mit einem indirekten Zitat nicht gemeint, dass man den Originaltext (mit mehr oder weniger großer Mühe) umformuliert; vielmehr sollte man sich vom jeweiligen Text lösen und den Inhalt in eigenen Worten wiedergeben [\ldots]
+    \begin{flushright}
+      \textcite[280]{Kornmeier:2011}, zitiert nach \textcite[7]{Schmidt:2016-stylesheet}; Hervorhebing im Original
+  \end{flushright}
+\end{quote}
+
+
+Beim Referieren der Ausführungen anderer AutorInnen ist es wichtig, dies zunächst wertneutral und ohne Interpretationen zu tun.
+%
+Eine kritische Auseinandersetzung folgt erst, nachdem man die Inhalte ausreichend dargelegt hat. Folgende Formulierungen sind beim Referieren hilfreich (\textcite[280]{Kornmeier:2011}, zitiert nach \textcite[8]{Schmidt:2016-stylesheet}):
+%
+\begin{itemize}
+\item Nach Meinung/Auffassung des Autors ist \ldots
+\item Der Autor vertritt dabei die Position, dass \ldots
+\item So betont der Autor, dass \ldots
+\item \ldots, so der Autor, \ldots
+\item Dieser Umstand sei \ldots
+\end{itemize}
+
+Wenn man in einer etwas längeren Passage (mehr als ein Satz) die Inhalte eines anderen Autors referiert, sollte man den Autor nicht unbedingt in jedem Satz erneut erwähnen, sondern in diesen Fällen den Konjunktiv I (Konjunktiv Präsens) verwenden, der signalisiert, daß es sich um die Aussage eines anderen handelt -- im Gegensatz zum Konjunktiv II (Konjunktiv Präteritum), der irreale Sachverhalte (vor allem in Konditionalsätzen) markiert.
+
+
+
+
+\section{Algorithmen}
+\label{sec:algorithmen}
+
+Formulieren Sie zentrale Schritte Ihrer Arbeit in Form von Algorithmen.
+%
+Das Setzen von Algorithmen kann z.\,B. mit dem \mintinline{xml}{algorithm2e}-Paket erreicht werden. So erzeugt folgenden Eingabe:
+%
+\begin{minted}{latex}
+% \usepackage[linesnumbered]{algorithm2e}
+  
+\begin{algorithm}
+  \KwIn{
+    \begin{itemize}
+    \item $D$, a database of transactions;
+    \item \textit{min\_supp}, the minimum support count threshold.
+    \end{itemize}
+}
+\KwOut{$L$, frequent itemsets in $D$.}
+\BlankLine
+$L_1 =$ find\_frequent\_1\_itemsets($D$)\;
+\For{$k=2$; $L_{k-1} \neq \phi$; $k++$}{
+  $C_k = \text{apriori\_gen}(L_{k-1})$\;
+  \ForEach{transaction $t \in D$ \tcp{scan $D$ for counts}}{
+    $C_t = \text{subset}(C_k,t)$\tcp*[l]{get candidates subsets of $t$}
+    \ForEach{candidate $c \in C_t$}{
+      c.count++\;
+    }
+  }
+  $L_k = \{c \in C_k \mid \mathit{c.count \geq \mathit{min\_supp}}\}$
+}
+\Return{$L = \cup_k L_k$}\;
+\caption{Beispiel-Algorithmus}
+\label{alg:count}
+\end{algorithm}
+\end{minted}
+%
+die Ausgabe in Algorithmus~\ref{alg:count}, wobei die Nummerierung der Zeilen durch die Paketoption \mintinline{xml}{linesnumbered} aktiviert wird.
+%
+Beachten Sie, dass \mintinline{xml}{algorithm} eine Gleitumgebung ist, die mit einer Beschriftung versehen und mit dem \mintinline{latex}{\label--\ref}-Mechanismus verwendet werden kann.
+
+\begin{algorithm}
+% \usepackage[linesnumbered]{algorithm2e}
+\KwIn{
+  \begin{itemize}
+  \item $D$, a database of transactions;
+  \item \textit{min\_supp}, the minimum support count threshold.
+  \end{itemize}
+}
+\KwOut{$L$, frequent itemsets in $D$.}
+\BlankLine
+$L_1 =$ find\_frequent\_1\_itemsets($D$)\;
+\For{$k=2$; $L_{k-1} \neq \phi$; $k++$}{
+  $C_k = \text{apriori\_gen}(L_{k-1})$\;
+  \ForEach{transaction $t \in D$ \tcp{scan $D$ for counts}}{
+    $C_t = \text{subset}(C_k,t)$\tcp*[l]{get candidates subsets of $t$}
+    \ForEach{candidate $c \in C_t$}{
+      c.count++\;
+    }
+  }
+  $L_k = \{c \in C_k \mid \mathit{c.count \geq \mathit{min\_supp}}\}$
+}
+\Return{$L = \cup_k L_k$}\;
+\caption{Beispiel-Algorithmus}
+\label{alg:count}
+\end{algorithm}
+
+
+
+\section{Programmcode}
+\label{sec:programmcode}
+
+Zum Setzen von Quellcode wird das Paket \mintinline{xml}{minted} empfohlen.
+%
+Mittels der durch dieses Paket zur Verfügung gestellten Befehle und Umgebungen wird Programmcode mit farbiger Syntaxhervorhebung dargestellt.
+%
+Zur Syntaxhervorhebung wird dabei auf \href{https://www.python.org/}{Python}s \href{https://pygments.org/}{Pygments-Bibliothek} zurückgegriffen.
+%
+Seit \TeXLive\ 2024$+$ wird die \mintinline{xml}{--shell-escape}-Funktion für diesen Zweck nicht mehr benötigt, da \mintinline{xml}{minted} Version 3.x ein \mintinline{xml}{latexminted} Python Executable mitbringt.
+%
+Die \mintinline{xml}{minted}-Dokumentation enthält bei Bedarf Installationshinweise. 
+%
+Sollte die Verwendung von \mintinline{xml}{minted} nicht möglich sein, kann auf das \mintinline{xml}{listings}-Paket zurückgegriffen werden.
+
+Präsentieren Sie im Textteil Ihrer Arbeit nur für den jeweiligen Erläuterungskontext relevante Auszüge Ihres Programms.
+%
+Längere oder ggf. vollständige Quellcodesequenzen sind dem Anhang vorbehalten.
+
+
+
+\section{Mathematisches}
+\label{sec:mathe}
+
+Formeln, Variablen und überhaupt alles Mathematische ist in mathematische Umgebungen zu setzen.
+%
+Die \AmSLaTeX-Pakete stellen dazu eine Vielzahl von entsprechenden satztechnischen Mitteln bereit.
+%
+Sie werden in der Vorlagendatei durch Laden des Pakets \mintinline{xml}{mathtools} (einer Modifikation von \mintinline{xml}{amsmath}) aktiviert.
+%
+Eine Dokumentation findet sich in \textcite{Voss:2012-mathe}.
+%
+Zudem liegt mit \enquote{Mathmode} von Herbert Voß jeder \TeX-Distribution eine englischsprachige Dokumentation bei.
+
+Achten Sie darauf, bei der Angabe von Funktionen auch deren \textbf{Wertebereiche} zu spezifizieren!
+
+
+
+\section{Anhang}
+\label{sec:anhang}
+
+In den Anhang gehören (umfangreichere) Materialen, die den Textteil stören bzw. überlang machen würden, die jedoch inhaltlich wichtig sind.
+%
+Im Falle von Arbeiten im Fach \textit{Informatik} besteht ein üblicher Anhang aus der Quellcodedokumentation.
+%
+In der \LaTeX-Quelldatei wird der Anhang wird mit dem Schalter \mintinline{latex}{\appendix} eingeleitet.
+%
+Erst nach eventuellen Anhängen werden die Verzeichnisse ausgegeben, wobei das Literaturverzeichnis immer den Schluss einer Arbeit bildet.
+%
+Im Falle von zwei Anhängen sieht eine mögliche Quellcodesequenz für den
+Anhang beispielweise wie folgt aus:
+%
+\begin{minted}{latex}
+\appendix % ab hier beginnt der Anhang
+\chapter{Anhang 1} % z.B. Quellcodedokumentation
+% Inhalt von Anhang 1
+\chapter{Anhang 2} % z.B. Fragebogen
+% Inhalt von Anhang 2
+
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+\printnomenclature % gebe Abkkürzungsverzeichnis aus
+\printbibliography % gebe Literaturverzeichnis aus
+\end{minted}
+
+
+
+\section{Literaturverzeichnis / Bibliographie}
+\label{sec:lit}
+
+Im Literaturverzeichnis, das am Ende der Hausarbeit den letzten Abschnitt bildet, werden die vollständigen Literaturangaben aufgelistet, sortiert in alphabetischer Reihenfolge nach den Nachnamen der Autoren bzw. Herausgeber.
+%
+Eine ordentliche Literaturdatenbank (\BibTeX-Datei) vorausgesetzt, braucht sich der \LaTeX-Anwender nicht um die vielen Formatierungsdetails zu kümmern.
+%
+Die in der Hausarbeit mit den Zitierbefehlen von \BibLaTeX\ zitierten Quellen werden mit folgender Zeile am Ende des Dokuments in einem Literaturverzeichnis ausgegeben:
+%
+\begin{minted}{latex}
+\printbibliography
+\end{minted}
+
+
+Ein Beispiel für ein auf diese Weise erstelltes Literaturverzeichnis ist am Ende dieses Dokumentes zu finden.
+%
+Hinweise zum Bibliographieren mit \LaTeX\ finden Sie in \textcite{Voss:2016-bib}.
+
+Die Voreinstellung der Vorlage (s.\,u. Abschnitt~\ref{sec:ttlab-cls}) sieht die Verwendung des Paketes \mintinline{xml}{biblatex} mit dem Backend \href{https://biblatex-biber.sourceforge.net/}{biber} vor.
+%
+Das Paket wird mit den Optionen
+%
+\begin{minted}{latex}
+\usepackage[style=authoryear, maxnames=5, maxcitenames=3, backend=biber]{biblatex}
+\end{minted}
+%
+in der TTLab-Klassendatei aufgerufen.
+%
+Der Anwender braucht dann nur noch Pfad und Name der Literaturdatei als Argument des Bibliographieressourcen-Befehls anzugeben:
+%
+\begin{minted}{latex}
+\addbibresource{pfad-und-name-von.bib}
+\end{minted}
+
+
+
+\subsection{Abkürzungsverzeichnis}
+\label{subsec:nomencl}
+
+Tritt das technische Vokabular einer Hausarbeit hauptsächlich in Form von Abkürzungen auf, empfiehlt es sich, dem Leser ein Abkürzungsverzeichnis an die Hand zu geben, das die verwendeten Abkürzungen samt ausgeschriebener Form vollständig aufführt.
+%
+Das Abkürzungsverzeichnis enthält keine, in der Sprache der Qualifikations- oder Hausarbeit übliche Abkürzungen, im Deutschen z.\,B. weder \enquote{s.\,o.} noch \enquote{vgl.} oder \enquote{z.\,B.}.
+%
+Solche gebräuchlichen Abkürzungen sind bereits in handelsüblichen Wörterbüchern verzeichnet.
+
+Das Abkürzungsverzeichnis steht als vorletztes Kapitel vor dem Literaturverzeichnis.
+%
+Für \LaTeX\ stellt das Paket \mintinline{xml}{nomencl} einen \emph{MakeIndex}-basierten Weg zur Erstellung eines Abkürzungsverzeichnis dar.
+%
+Um das Abkürzungsverzeichnis in das Inhaltsverzeichnis aufzunehmen, ist das Paket auf folgende Weise einzubinden:
+%
+\begin{minted}{latex}
+\usepackage[intoc]{nomencl}
+\end{minted}
+
+
+\subsection{Erklärung}
+\label{subsec:erklaerung}
+
+Die Plagiatserklärung oder Eigenständigkeitserklärung am FB 12 besteht aus folgender, handschriftlich zu unterschreibender eidesstattlicher Erklärung (vgl. die \enquote{Erklärung Abschlussarbeit} im \href{https://www.uni-frankfurt.de/104027741/Downloadbereich}{Downloadbereich} auf den Seiten des Prüfungsamts des FB 12 der GU):
+%
+\begin{center}
+  \adjincludegraphics[scale=0.7, page=2, frame, trim=0 270 0 120, clip]{../tmp/template.pdf}
+\end{center}
+
+Wenn Sie die \TeX-Vorlage \mintinline{xml}{ttlab-qualify.cls} verwenden, wird die Erklärung automatisch erzeugt.
+%
+Der korrekte Studiengang und die Art der Abschlussarbeit werden durch entsprechende Dokumentklassenoptionen ausgewählt.
+%
+Zur Verfügung stehen:
+%
+\begin{minted}{latex}
+\documentclass[...,bsc2019,...]{ttlab-qualify}
+\documentclass[...,msc2019,...]{ttlab-qualify}
+\documentclass[...,msc2019bio,...]{ttlab-qualify}
+\documentclass[...,mscwirtschaft2019,...]{ttlab-qualify}
+\documentclass[...,seminar,...]{ttlab-qualify}
+\end{minted}
+
+Die ersten vier Optionen bilden die Abschlussarbeiten der aktuellen Informatik-Studiengänge an der GU ab, die Option \mintinline{xml}{seminar} ist für sonstige Haus- oder Seminararbeiten zu wählen.
+
+
+
+\section{Weiterführende Hinweise}
+\label{sec:weiteres}
+\begin{itemize}
+\item Allgemeine Hinweise zum Verfassen von schriftlichen Arbeiten finden Sie in der unten angegebenen Literatur.
+
+\item Hinweise zum Verfassen von schriftlichen Arbeiten mit \LaTeX\ bietet \textcite{Partosch:2014}.
+  
+\item \LaTeX\ und verwandte Themen (z.\,B. \LaTeX-Editoren) sind gut im Netz dokumentiert.
+\end{itemize}
+
+
+
+\section{\LaTeX-Vorlage}
+\label{sec:ttlab-cls}
+
+Die \LaTeX-Vorlage \mintinline{xml}{ttlab-qualify.cls} versammelt Pakete gemäß der oben genannten Empfehlungen.
+%
+Die zugrundeliegende Klasse ist scrreprt aus dem \KOMAScript-Bündel.
+%
+Die Verwendung der Klasse kann auf zwei Arten geschehen:
+%
+\begin{itemize}
+\item im Arbeitsverzeichnis: kopieren Sie die CLS-Datei in das Verzeichnis, in dem sich auch Ihre \TeX-Datei befindet;
+\item im \TeX-Verzeichnisbaum: kopieren Sie die CLS-Datei in ein entsprechendes Unterverzeichnis des lokalen Zweiges Ihrer Distribution (im Falle von \href{https://www.tug.org/texlive/}{\TeXLive} ist das z.\,B. \texttt{texlive/texmf-local/tex/latex/local/ttlab}). Im Anschluss müssen Sie die Pfadnamen aktualisieren (\texttt{mktexlsr}).
+\end{itemize}
+
+
+Die Klasse lädt standardmäßig die folgenden Pakete:
+\begin{itemize}
+\item etoolbox
+\item babel
+\item csquotes
+\item graphicx
+\item xcolor
+\item biblatex
+\item mathtools
+\item amssymb
+\end{itemize}
+
+Die vorausgewählten Schriften sind:
+%
+\begin{itemize}
+\item Linux Libertine (Serifen)
+\item Linux Biolinum (Serifenlose)
+\item DejaVu Sans Mono (Dicktengleiche)
+\end{itemize}
+
+
+Die Schriften setzen die Verwendung von \mintinline{xml}{fontspec} voraus.
+%
+Schriftverwaltung mit \mintinline{xml}{fontspec} wird von den Formaten \XeLaTeX\ und \LuaLaTeX\ unterstützt.
+%
+Wegen der Einbindung der Programmiersprache \href{https://www.lua.org/}{Lua}, was \TeX's  \href{https://www.overleaf.com/learn/latex/Articles/An_Introduction_to_LuaTeX_(Part_1)%3A_What_is_it%E2%80%94and_what_makes_it_so_different%3F}{Möglichkeiten über Textsatz hinaus erweitert}, wird \href{https://www.luatex.org/}{\LuaLaTeX} empfohlen \parencite[s.\,a.][]{Voss:2013-lualatex}.
+
+Ist die Verwendung dieser Voreinstellungen nicht möglich oder gewünscht, können die Schrifteinstellungen und das Laden von \mintinline{xml}{fontspec} mit der Option
+%
+\begin{minted}{latex}
+\documentclass[...,nolibertine,...]{ttlab-qualify}
+\end{minted}
+%
+aufgehoben werden.
+%
+Der Anwender sollte sich in diesem Fall um eine adäquate Schriftalternative bemühen.
+
+
+Die Pakete \mintinline{xml}{minted}, \mintinline{xml}{algorthim2e} und \mintinline{xml}{nomencl} werden standardmäßig nicht geladen, können bei Bedarf über die (nahezu) gleichlautenden Klassenoptionen \texttt{minted}, \texttt{algorithm} und \texttt{nomencl} aktiviert werden.
+%
+{Beachten Sie, dass minted nur mit write18 bzw. shell-escape funktioniert.}
+
+
+Die voreingestellte Sprache ist Deutsch, mit der \texttt{ngerman}-Option für das Paket \mintinline{xml}{babel}.
+%
+Für englischsprachige Qualifikations- oder Hausarbeiten wählen Sie die Klassenoption \texttt{english}.
+
+Die zur Klasse gehörende \LaTeX-Vorlagendatei stellt bereits die meisten Vorgaben bereit.
+%
+Im Kopf der Vorlage sind Anweisungen für eine vollständigen Kompilation einer schriftlichen Arbeit unter Verwendung von \mintinline{xml}{minted} und der Erzeugung eines Abkürzungsverzeichnisses mit \mintinline{xml}{nomencl} mittels des Automatisierungs-Tools \href{https://github.com/islandoftex/arara}{arara} vorgegeben.
+%
+Die Direktiven können für \mintinline{xml}{arara} durch ein zweites \enquote{\%}-Zeichen auskommentiert werden.
+
+Viel Erfolg!
+
+
+
+\appendix
+
+\printbibliography
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
